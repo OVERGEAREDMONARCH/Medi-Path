@@ -1,0 +1,341 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Healthcare Design System - Professional, trustworthy, and calming */
+
+@layer base {
+  :root {
+    /* Core healthcare palette */
+    --background: 0 0% 100%;
+    --foreground: 215 25% 27%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 27%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 27%;
+
+    /* Medical blue - trust and professionalism */
+    --primary: 210 100% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 210 100% 40%;
+
+    /* Calming green - health and wellness */
+    --secondary: 160 84% 39%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Soft backgrounds */
+    --muted: 210 40% 98%;
+    --muted-foreground: 215 16% 47%;
+
+    /* Warm accent - friendly and approachable */
+    --accent: 25 95% 53%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 215 20% 91%;
+    --input: 215 20% 91%;
+    --ring: 210 100% 45%;
+
+    --radius: 0.75rem;
+
+    /* Healthcare-specific design tokens */
+    --healthcare-blue: 210 100% 45%;
+    --healthcare-green: 160 84% 39%;
+    --healthcare-orange: 25 95% 53%;
+    --healthcare-light-blue: 210 100% 95%;
+    --healthcare-light-green: 160 84% 95%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(210 100% 45%), hsl(160 84% 39%));
+    --gradient-hero: linear-gradient(135deg, hsl(210 100% 45%) 0%, hsl(160 84% 39%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(210 40% 98%) 100%);
+    
+    /* Shadows */
+    --shadow-healthcare: 0 10px 40px -15px hsl(210 100% 45% / 0.2);
+    --shadow-card: 0 4px 20px -2px hsl(215 25% 27% / 0.1);
+    --shadow-feature: 0 8px 30px -8px hsl(210 100% 45% / 0.15);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 220 15% 8%;
+    --foreground: 210 40% 95%;
+
+    --card: 220 15% 10%;
+    --card-foreground: 210 40% 95%;
+
+    --popover: 220 15% 10%;
+    --popover-foreground: 210 40% 95%;
+
+    --primary: 210 100% 60%;
+    --primary-foreground: 220 15% 8%;
+    --primary-hover: 210 100% 65%;
+
+    --secondary: 160 84% 45%;
+    --secondary-foreground: 220 15% 8%;
+
+    --muted: 220 15% 15%;
+    --muted-foreground: 215 20% 70%;
+
+    --accent: 25 95% 60%;
+    --accent-foreground: 220 15% 8%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 95%;
+
+    --border: 220 15% 20%;
+    --input: 220 15% 15%;
+    --ring: 210 100% 60%;
+    
+    /* Dark mode gradients */
+    --gradient-card: linear-gradient(145deg, hsl(220 15% 10%) 0%, hsl(220 15% 15%) 100%);
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer components {
+  /* Hero button variant */
+  .btn-hero {
+    @apply bg-gradient-to-r from-primary to-secondary text-white font-semibold px-8 py-4 rounded-xl;
+    @apply hover:shadow-[0_8px_30px_-8px_hsl(var(--healthcare-blue)/0.3)] transition-all duration-300;
+    @apply hover:scale-105 active:scale-95;
+  }
+
+  /* Feature card styling */
+  .feature-card {
+    background: var(--gradient-card);
+    box-shadow: var(--shadow-card);
+    @apply rounded-2xl p-8 transition-all duration-300 hover:shadow-[var(--shadow-feature)];
+    @apply hover:-translate-y-2 border border-border/50;
+  }
+
+  /* Healthcare icon containers */
+  .healthcare-icon {
+    background: var(--gradient-primary);
+    @apply w-16 h-16 rounded-2xl flex items-center justify-center mb-6;
+    @apply text-white shadow-[var(--shadow-healthcare)];
+  }
+
+  /* Smooth scrolling animations */
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { 
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Loader animations */
+  @keyframes ringA {
+    from, 4% {
+      stroke-dasharray: 0 660;
+      stroke-width: 20;
+      stroke-dashoffset: -330;
+    }
+    12% {
+      stroke-dasharray: 60 600;
+      stroke-width: 30;
+      stroke-dashoffset: -335;
+    }
+    32% {
+      stroke-dasharray: 60 600;
+      stroke-width: 30;
+      stroke-dashoffset: -595;
+    }
+    40%, 54% {
+      stroke-dasharray: 0 660;
+      stroke-width: 20;
+      stroke-dashoffset: -660;
+    }
+    62% {
+      stroke-dasharray: 60 600;
+      stroke-width: 30;
+      stroke-dashoffset: -665;
+    }
+    82% {
+      stroke-dasharray: 60 600;
+      stroke-width: 30;
+      stroke-dashoffset: -925;
+    }
+    90%, to {
+      stroke-dasharray: 0 660;
+      stroke-width: 20;
+      stroke-dashoffset: -990;
+    }
+  }
+
+  @keyframes ringB {
+    from, 12% {
+      stroke-dasharray: 0 220;
+      stroke-width: 20;
+      stroke-dashoffset: -110;
+    }
+    20% {
+      stroke-dasharray: 20 200;
+      stroke-width: 30;
+      stroke-dashoffset: -115;
+    }
+    40% {
+      stroke-dasharray: 20 200;
+      stroke-width: 30;
+      stroke-dashoffset: -195;
+    }
+    48%, 62% {
+      stroke-dasharray: 0 220;
+      stroke-width: 20;
+      stroke-dashoffset: -220;
+    }
+    70% {
+      stroke-dasharray: 20 200;
+      stroke-width: 30;
+      stroke-dashoffset: -225;
+    }
+    90% {
+      stroke-dasharray: 20 200;
+      stroke-width: 30;
+      stroke-dashoffset: -305;
+    }
+    98%, to {
+      stroke-dasharray: 0 220;
+      stroke-width: 20;
+      stroke-dashoffset: -330;
+    }
+  }
+
+  @keyframes ringC {
+    from {
+      stroke-dasharray: 0 440;
+      stroke-width: 20;
+      stroke-dashoffset: 0;
+    }
+    8% {
+      stroke-dasharray: 40 400;
+      stroke-width: 30;
+      stroke-dashoffset: -5;
+    }
+    28% {
+      stroke-dasharray: 40 400;
+      stroke-width: 30;
+      stroke-dashoffset: -175;
+    }
+    36%, 58% {
+      stroke-dasharray: 0 440;
+      stroke-width: 20;
+      stroke-dashoffset: -220;
+    }
+    66% {
+      stroke-dasharray: 40 400;
+      stroke-width: 30;
+      stroke-dashoffset: -225;
+    }
+    86% {
+      stroke-dasharray: 40 400;
+      stroke-width: 30;
+      stroke-dashoffset: -395;
+    }
+    94%, to {
+      stroke-dasharray: 0 440;
+      stroke-width: 20;
+      stroke-dashoffset: -440;
+    }
+  }
+
+  @keyframes ringD {
+    from, 8% {
+      stroke-dasharray: 0 440;
+      stroke-width: 20;
+      stroke-dashoffset: 0;
+    }
+    16% {
+      stroke-dasharray: 40 400;
+      stroke-width: 30;
+      stroke-dashoffset: -5;
+    }
+    36% {
+      stroke-dasharray: 40 400;
+      stroke-width: 30;
+      stroke-dashoffset: -175;
+    }
+    44%, 50% {
+      stroke-dasharray: 0 440;
+      stroke-width: 20;
+      stroke-dashoffset: -220;
+    }
+    58% {
+      stroke-dasharray: 40 400;
+      stroke-width: 30;
+      stroke-dashoffset: -225;
+    }
+    78% {
+      stroke-dasharray: 40 400;
+      stroke-width: 30;
+      stroke-dashoffset: -395;
+    }
+    86%, to {
+      stroke-dasharray: 0 440;
+      stroke-width: 20;
+      stroke-dashoffset: -440;
+    }
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+}

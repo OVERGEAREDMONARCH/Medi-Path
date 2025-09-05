@@ -13,28 +13,44 @@ const Login = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  // Permanent frontend credentials for testing
+  const DEMO_CREDENTIALS = {
+    patient: { email: 'patient@medipath.com', password: 'MediPath2024!' },
+    provider: { email: 'provider@medipath.com', password: 'MediPath2024!' }
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
     const formData = new FormData(e.currentTarget as HTMLFormElement);
     const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
     
-    // Simulate login process
+    // Validate against demo credentials
     setTimeout(() => {
       setIsLoading(false);
-      toast({
-        title: "Welcome back!",
-        description: "You have successfully signed in.",
-      });
       
-      // Redirect based on email domain (mock logic)
-      if (email?.includes('doctor') || email?.includes('dr.') || email?.includes('provider')) {
+      if (email === DEMO_CREDENTIALS.patient.email && password === DEMO_CREDENTIALS.patient.password) {
+        toast({
+          title: "Welcome back, Patient!",
+          description: "You have successfully signed in to your patient dashboard.",
+        });
+        navigate('/patient-dashboard');
+      } else if (email === DEMO_CREDENTIALS.provider.email && password === DEMO_CREDENTIALS.provider.password) {
+        toast({
+          title: "Welcome back, Provider!",
+          description: "You have successfully signed in to your provider dashboard.",
+        });
         navigate('/provider-dashboard');
       } else {
-        navigate('/patient-dashboard');
+        toast({
+          title: "Invalid credentials",
+          description: "Please use the demo credentials provided.",
+          variant: "destructive"
+        });
       }
-    }, 2000);
+    }, 1500);
   };
 
   const handleSignup = async (e: React.FormEvent) => {
@@ -49,7 +65,7 @@ const Login = () => {
       setIsLoading(false);
       toast({
         title: "Account created!",
-        description: "Welcome to MediConnect. Please verify your email.",
+        description: "Welcome to Medi-Path. Please verify your email.",
       });
       
       // Redirect based on selected role
@@ -70,7 +86,7 @@ const Login = () => {
             <Heart className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-foreground">MediConnect</h1>
+            <h1 className="text-xl font-bold text-foreground">Medi-Path</h1>
             <p className="text-xs text-muted-foreground">Healthcare Platform</p>
           </div>
         </Link>
@@ -95,7 +111,7 @@ const Login = () => {
             </div>
             <div>
               <CardTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Welcome to MediConnect
+                Welcome to Medi-Path
               </CardTitle>
               <CardDescription className="text-muted-foreground">
                 Access your healthcare dashboard
@@ -104,6 +120,19 @@ const Login = () => {
           </CardHeader>
 
           <CardContent>
+            {/* Demo Credentials Info */}
+            <div className="mb-6 p-4 bg-accent/10 border border-accent/20 rounded-lg">
+              <h3 className="font-semibold text-sm mb-2 text-foreground">Demo Credentials:</h3>
+              <div className="space-y-2 text-xs text-muted-foreground">
+                <div>
+                  <span className="font-medium">Patient:</span> patient@medipath.com / MediPath2024!
+                </div>
+                <div>
+                  <span className="font-medium">Provider:</span> provider@medipath.com / MediPath2024!
+                </div>
+              </div>
+            </div>
+
             <Tabs defaultValue="login" className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-6">
                 <TabsTrigger value="login">Sign In</TabsTrigger>
@@ -116,14 +145,14 @@ const Login = () => {
                     <Label htmlFor="email">Email</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        placeholder="doctor@mediclinic.com"
-                        className="pl-10"
-                        required
-                      />
+                       <Input
+                         id="email"
+                         name="email"
+                         type="email"
+                         placeholder="patient@medipath.com or provider@medipath.com"
+                         className="pl-10"
+                         required
+                       />
                     </div>
                   </div>
                   
@@ -131,13 +160,14 @@ const Login = () => {
                     <Label htmlFor="password">Password</Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="password"
-                        type="password"
-                        placeholder="••••••••"
-                        className="pl-10"
-                        required
-                      />
+                       <Input
+                         id="password"
+                         name="password"
+                         type="password"
+                         placeholder="MediPath2024!"
+                         className="pl-10"
+                         required
+                       />
                     </div>
                   </div>
 

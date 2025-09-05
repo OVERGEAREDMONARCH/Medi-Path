@@ -40,7 +40,7 @@ const ProviderDashboard = () => {
                 <Heart className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-foreground">MediConnect</h1>
+                <h1 className="text-xl font-bold text-foreground">Medi-Path</h1>
                 <p className="text-xs text-muted-foreground">Provider Dashboard</p>
               </div>
             </Link>

@@ -36,7 +36,7 @@ const ProductInfo = () => {
     {
       icon: <Star className="w-6 h-6" />,
       title: "5-Star Reviews",
-      description: "Join thousands of satisfied patients who trust MediConnect for their healthcare."
+      description: "Join thousands of satisfied patients who trust Medi-Path for their healthcare."
     }
   ];
 
@@ -95,7 +95,7 @@ const ProductInfo = () => {
         <div className="container mx-auto px-6">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Why Choose MediConnect?
+              Why Choose Medi-Path?
             </h1>
             <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
               Experience the future of healthcare with our comprehensive platform that puts your health and convenience first.
@@ -126,7 +126,7 @@ const ProductInfo = () => {
               Healthcare That Works For You
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Discover the benefits that make MediConnect the preferred choice for modern healthcare.
+              Discover the benefits that make Medi-Path the preferred choice for modern healthcare.
             </p>
           </div>
           

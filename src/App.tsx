@@ -32,7 +32,7 @@ const App = () => {
   }
 
   return (
-    <ThemeProvider defaultTheme="system" storageKey="mediconnect-theme">
+    <ThemeProvider defaultTheme="system" storageKey="medipath-theme">
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <Toaster />

@@ -121,16 +121,10 @@ const Login = () => {
 
           <CardContent>
             {/* Demo Credentials Info */}
-            <div className="mb-6 p-4 bg-accent/10 border border-accent/20 rounded-lg">
-              <h3 className="font-semibold text-sm mb-2 text-foreground">Demo Credentials:</h3>
-              <div className="space-y-2 text-xs text-muted-foreground">
-                <div>
-                  <span className="font-medium">Patient:</span> patient@medipath.com / MediPath2024!
-                </div>
-                <div>
-                  <span className="font-medium">Provider:</span> provider@medipath.com / MediPath2024!
-                </div>
-              </div>
+            <div className="mb-4 p-3 bg-accent/10 border border-accent/20 rounded-lg">
+              <p className="text-xs text-muted-foreground">
+                <span className="font-medium">Demo:</span> patient@medipath.com or provider@medipath.com / MediPath2024!
+              </p>
             </div>
 
             <Tabs defaultValue="login" className="w-full">
@@ -307,9 +301,12 @@ const Login = () => {
             <div className="mt-6 text-center text-sm text-muted-foreground">
               <p>
                 Need help?{" "}
-                <button className="text-primary hover:text-primary/80 transition-colors">
+                <a 
+                  href="mailto:support@medipath.com?subject=Medi-Path Support Request&body=Hello, I need help with..."
+                  className="text-primary hover:text-primary/80 transition-colors"
+                >
                   Contact Support
-                </button>
+                </a>
               </p>
             </div>
           </CardContent>

@@ -1,11 +1,50 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Phone, Mail, MapPin, Clock, MessageSquare, HeartHandshake } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const ContactSection = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    const data = {
+      firstName: formData.get('firstName') as string,
+      lastName: formData.get('lastName') as string,
+      email: formData.get('email') as string,
+      subject: formData.get('subject') as string,
+      message: formData.get('message') as string,
+    };
+
+    // Simulate form submission
+    setTimeout(() => {
+      setIsLoading(false);
+      
+      if (data.firstName && data.lastName && data.email && data.subject && data.message) {
+        toast({
+          title: "Message sent successfully!",
+          description: "We'll get back to you within 4 hours.",
+        });
+        
+        // Reset form
+        (e.currentTarget as HTMLFormElement).reset();
+      } else {
+        toast({
+          title: "Please fill in all fields",
+          description: "All fields are required to send your message.",
+          variant: "destructive"
+        });
+      }
+    }, 1500);
+  };
   const contactMethods = [
     {
       icon: <Phone className="w-6 h-6" />,
@@ -100,34 +139,38 @@ const ContactSection = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium mb-2 block">First Name</label>
-                  <Input placeholder="John" />
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">First Name</label>
+                    <Input name="firstName" placeholder="John" required />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Last Name</label>
+                    <Input name="lastName" placeholder="Doe" required />
+                  </div>
                 </div>
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Last Name</label>
-                  <Input placeholder="Doe" />
+                  <label className="text-sm font-medium mb-2 block">Email</label>
+                  <Input name="email" type="email" placeholder="john.doe@example.com" required />
                 </div>
-              </div>
-              <div>
-                <label className="text-sm font-medium mb-2 block">Email</label>
-                <Input type="email" placeholder="john.doe@example.com" />
-              </div>
-              <div>
-                <label className="text-sm font-medium mb-2 block">Subject</label>
-                <Input placeholder="How can we help you?" />
-              </div>
-              <div>
-                <label className="text-sm font-medium mb-2 block">Message</label>
-                <Textarea 
-                  placeholder="Tell us more about your inquiry..."
-                  className="min-h-[120px]"
-                />
-              </div>
-              <Button className="w-full">
-                Send Message
-              </Button>
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Subject</label>
+                  <Input name="subject" placeholder="How can we help you?" required />
+                </div>
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Message</label>
+                  <Textarea 
+                    name="message"
+                    placeholder="Tell us more about your inquiry..."
+                    className="min-h-[120px]"
+                    required
+                  />
+                </div>
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? "Sending..." : "Send Message"}
+                </Button>
+              </form>
             </CardContent>
           </Card>
 

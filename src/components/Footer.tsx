@@ -1,4 +1,5 @@
 import { Heart, Mail, Phone, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -70,10 +71,10 @@ const Footer = () => {
             © 2024 Medi-Path. All rights reserved. HIPAA Compliant Healthcare Platform.
           </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="/privacy" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Privacy Policy</a>
-            <a href="/terms" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Terms of Service</a>
-            <a href="/security" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Security</a>
-          </div>
+              <Link to="/privacy" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Privacy Policy</Link>
+              <Link to="/terms" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Terms of Service</Link>
+              <Link to="/security" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Security</Link>
+            </div>
         </div>
       </div>
     </footer>

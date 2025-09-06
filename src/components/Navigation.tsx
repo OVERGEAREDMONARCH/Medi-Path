@@ -2,10 +2,32 @@ import { Button } from "@/components/ui/button";
 import { Heart, User, Calendar, MessageSquare, Phone, Menu } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Auto-hide mobile menu on scroll or after 5 seconds
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    // Timer to auto-hide after 5 seconds
+    const timer = setTimeout(() => {
+      setIsMenuOpen(false);
+    }, 5000);
+
+    // Hide on scroll
+    const handleScroll = () => {
+      setIsMenuOpen(false);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isMenuOpen]);
   return (
     <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-md border-b border-border z-50 shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
@@ -39,7 +61,9 @@ const Navigation = () => {
 
           {/* Action Buttons */}
           <div className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0">
-            <ThemeToggle />
+            <div className="hidden md:block">
+              <ThemeToggle />
+            </div>
             
             {/* Desktop Sign In - shows on medium screens and up */}
             <Link to="/login" className="hidden md:block">
@@ -78,7 +102,7 @@ const Navigation = () => {
 
         {/* Mobile Navigation Menu */}
         {isMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-border bg-background/95 backdrop-blur-md rounded-b-lg">
+          <div className="md:hidden mt-4 pb-4 border-t border-border rounded-b-lg">
             <div className="flex flex-col space-y-2 pt-4">
               <a 
                 href="#home" 

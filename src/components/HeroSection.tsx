@@ -32,18 +32,29 @@ const HeroSection = () => {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <Button 
                 variant="hero" 
                 size="lg" 
-                className="text-lg px-8 py-4"
-                onClick={() => window.open('tel:+1234567890', '_self')}
+                className="text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto"
+                onClick={() => {
+                  // Navigate to patient dashboard or login
+                  window.location.href = '/login?type=patient&action=book';
+                }}
               >
-                <Calendar className="w-5 h-5 mr-2" />
+                <Calendar className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                 Book Appointment
               </Button>
-              <Button variant="outline" size="lg" className="text-lg px-8 py-4 group">
-                <Play className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto group hover:bg-primary hover:text-primary-foreground"
+                onClick={() => {
+                  // Open demo video modal or navigate to demo page
+                  window.open('https://www.youtube.com/watch?v=demo-video', '_blank');
+                }}
+              >
+                <Play className="w-4 h-4 sm:w-5 sm:h-5 mr-2 group-hover:scale-110 transition-transform" />
                 Watch Demo
               </Button>
             </div>

@@ -37,22 +37,28 @@ const CTASection = () => {
           </p>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-8 max-w-md mx-auto">
             <Button 
               variant="outline" 
               size="lg" 
-              className="bg-white text-primary hover:bg-white/90 border-white text-lg px-8 py-4"
+              className="bg-white text-primary hover:bg-white/90 hover:scale-105 border-white text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto transition-all duration-200"
+              onClick={() => {
+                window.location.href = '/login?type=patient';
+              }}
             >
               For Patients
-              <ArrowRight className="w-5 h-5 ml-2" />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
             </Button>
             <Button 
               variant="outline" 
               size="lg" 
-              className="bg-transparent text-white border-white hover:bg-white/10 text-lg px-8 py-4"
+              className="bg-transparent text-white border-white hover:bg-white/20 hover:scale-105 text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto transition-all duration-200"
+              onClick={() => {
+                window.location.href = '/login?type=provider';
+              }}
             >
               For Providers
-              <ArrowRight className="w-5 h-5 ml-2" />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
             </Button>
           </div>
 

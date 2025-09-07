@@ -167,7 +167,12 @@ const ContactSection = () => {
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full" disabled={isLoading}>
+                <Button 
+                  type="submit" 
+                  className="w-full text-base py-3 hover:scale-[1.02] transition-all duration-200" 
+                  disabled={isLoading}
+                  size="lg"
+                >
                   {isLoading ? "Sending..." : "Send Message"}
                 </Button>
               </form>
@@ -219,7 +224,19 @@ const ContactSection = () => {
                     <p className="text-sm text-muted-foreground mb-4">
                       If you're experiencing a medical emergency, please call 911 immediately or visit your nearest emergency room.
                     </p>
-                    <Button variant="destructive" size="sm">
+                    <Button 
+                      variant="destructive" 
+                      size="sm" 
+                      className="w-full sm:w-auto"
+                      onClick={() => {
+                        // Open emergency resources or dial 911
+                        if (confirm('Do you need immediate emergency assistance? Click OK to call 911 or Cancel to view emergency resources.')) {
+                          window.open('tel:911', '_self');
+                        } else {
+                          window.open('/emergency-resources', '_blank');
+                        }
+                      }}
+                    >
                       Emergency Resources
                     </Button>
                   </div>

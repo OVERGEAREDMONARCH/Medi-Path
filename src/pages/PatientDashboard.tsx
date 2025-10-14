@@ -26,7 +26,7 @@ const PatientDashboard = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 md:space-y-8">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto">
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto rounded-lg border bg-muted/50 p-1">
             <TabsTrigger value="overview" className="text-xs md:text-sm">Overview</TabsTrigger>
             <TabsTrigger value="appointments" className="text-xs md:text-sm">Appointments</TabsTrigger>
             <TabsTrigger value="records" className="text-xs md:text-sm">Records</TabsTrigger>

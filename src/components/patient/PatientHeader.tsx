@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Heart, Bell, Settings, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
+import { SettingsPanel } from "@/components/SettingsPanel";
 
 export const PatientHeader = () => {
+  const [showSettings, setShowSettings] = useState(false);
   return (
     <header className="bg-card border-b border-border/20 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3">
@@ -20,19 +23,39 @@ export const PatientHeader = () => {
 
           {/* User Actions */}
           <div className="flex items-center space-x-1 md:space-x-4">
-            <Button variant="ghost" size="sm" className="hidden md:flex">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="hidden md:flex"
+              onClick={() => alert('Notifications panel coming soon!')}
+            >
               <Bell className="w-4 h-4 mr-2" />
               Notifications
             </Button>
-            <Button variant="ghost" size="sm" className="md:hidden">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="md:hidden"
+              onClick={() => alert('Notifications panel coming soon!')}
+            >
               <Bell className="w-4 h-4" />
             </Button>
             
-            <Button variant="ghost" size="sm" className="hidden md:flex">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="hidden md:flex"
+              onClick={() => setShowSettings(true)}
+            >
               <Settings className="w-4 h-4 mr-2" />
               Settings
             </Button>
-            <Button variant="ghost" size="sm" className="md:hidden">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="md:hidden"
+              onClick={() => setShowSettings(true)}
+            >
               <Settings className="w-4 h-4" />
             </Button>
             
@@ -50,6 +73,11 @@ export const PatientHeader = () => {
           </div>
         </div>
       </div>
+      
+      <SettingsPanel 
+        isOpen={showSettings} 
+        onClose={() => setShowSettings(false)} 
+      />
     </header>
   );
 };

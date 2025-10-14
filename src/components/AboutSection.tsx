@@ -99,7 +99,7 @@ const AboutSection = () => {
 
         {/* Values */}
         <div>
-          <h3 className="text-2xl font-bold text-center mb-12">Our Core Values</h3>
+          <h3 className="text-2xl font-bold text-center mb-12 story-link cursor-pointer">Our Core Values</h3>
           <div className="grid md:grid-cols-3 gap-8">
             {values.map((value, index) => (
               <Card key={index} className="border-border/50 text-center">
@@ -107,7 +107,7 @@ const AboutSection = () => {
                   <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4 text-primary">
                     {value.icon}
                   </div>
-                  <CardTitle className="text-xl">{value.title}</CardTitle>
+                  <CardTitle className="text-xl story-link cursor-pointer">{value.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-base leading-relaxed">

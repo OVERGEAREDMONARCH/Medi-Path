@@ -100,6 +100,15 @@ const MedAssist = () => {
 
     // Mock OCR extraction
     const extracted = await mockOCR(file);
+    if (!extracted) {
+      addMessage({
+        role: "assistant",
+        content:
+          "I couldn't recognise a medication in this file. Please type the medication name exactly as it appears on the packaging, or check with a pharmacist.",
+      });
+      setIsLoading(false);
+      return;
+    }
     const medication = lookupMedication(extracted);
 
     if (medication) {
@@ -254,19 +263,25 @@ const MedAssist = () => {
               </div>
 
               <div className="flex items-center gap-2">
-                <input
+                                <input
                   ref={imageInputRef}
                   type="file"
                   accept="image/*"
                   className="hidden"
-                  onChange={(e) => handleFiles(e.target.files)}
+                  onChange={(e) => {
+                    handleFiles(e.target.files);
+                    e.target.value = "";
+                  }}
                 />
                 <input
                   ref={fileInputRef}
                   type="file"
                   accept="application/pdf,image/*"
                   className="hidden"
-                  onChange={(e) => handleFiles(e.target.files)}
+                  onChange={(e) => {
+                    handleFiles(e.target.files);
+                    e.target.value = "";
+                  }}
                 />
                 <Button
                   variant="outline"

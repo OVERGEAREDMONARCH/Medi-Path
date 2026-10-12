@@ -11,11 +11,12 @@ const ContactSection = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget; // capture now: React clears currentTarget after this handler returns
     setIsLoading(true);
 
-    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    const formData = new FormData(form);
     const data = {
       firstName: formData.get('firstName') as string,
       lastName: formData.get('lastName') as string,
@@ -35,7 +36,7 @@ const ContactSection = () => {
         });
         
         // Reset form
-        (e.currentTarget as HTMLFormElement).reset();
+        form.reset();
       } else {
         toast({
           title: "Please fill in all fields",

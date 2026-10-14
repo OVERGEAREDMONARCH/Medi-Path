@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Phone, Mail, MapPin, Clock, MessageSquare, HeartHandshake } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, MessageSquare, HeartHandshake, AlertTriangle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const ContactSection = () => {
@@ -168,6 +168,13 @@ const ContactSection = () => {
                     required
                   />
                 </div>
+
+                <p className="flex items-start gap-2 text-sm text-destructive">
+                  <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                  Don't use this form for urgent medical problems. For chest pain, difficulty
+                  breathing or any emergency, call 999. For urgent advice, call NHS 111.
+                </p>
+
                 <Button 
                   type="submit" 
                   className="w-full text-base py-3 hover:scale-[1.02] transition-all duration-200" 
@@ -213,33 +220,36 @@ const ContactSection = () => {
               ))}
             </div>
 
-            {/* Emergency Notice */}
+                        {/* Emergency Notice */}
             <Card className="border-destructive/50 bg-destructive/5">
               <CardContent className="p-6">
                 <div className="flex items-start space-x-4">
                   <div className="w-12 h-12 bg-destructive/10 rounded-lg flex items-center justify-center text-destructive flex-shrink-0">
                     <Phone className="w-6 h-6" />
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-lg mb-2 text-destructive">Medical Emergency?</h4>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      If you're experiencing a medical emergency, please call 911 immediately or visit your nearest emergency room.
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-lg text-destructive">Medical Emergency?</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Medi-Path is not an emergency service.
                     </p>
-                    <Button 
-                      variant="destructive" 
-                      size="sm" 
-                      className="w-full sm:w-auto"
-                      onClick={() => {
-                        // Open emergency resources or dial 911
-                        if (confirm('Do you need immediate emergency assistance? Click OK to call 911 or Cancel to view emergency resources.')) {
-                          window.open('tel:911', '_self');
-                        } else {
-                          window.open('/emergency-resources', '_blank');
-                        }
-                      }}
-                    >
-                      Emergency Resources
-                    </Button>
+                    <p className="text-sm text-foreground">
+                      If someone is seriously ill or injured, or their life is at risk, call{" "}
+                      <a href="tel:999" className="font-bold text-destructive underline">999</a>{" "}
+                      or go to A&amp;E.
+                    </p>
+                    <p className="text-sm text-foreground">
+                      For urgent advice that isn't an emergency, call{" "}
+                      <a href="tel:111" className="font-bold underline">NHS 111</a>{" "}
+                      or visit{" "}
+                      <a
+                        href="https://111.nhs.uk"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-bold underline"
+                      >
+                        111.nhs.uk
+                      </a>.
+                    </p>
                   </div>
                 </div>
               </CardContent>

@@ -170,9 +170,9 @@ const Login = () => {
                       <input type="checkbox" className="rounded border-border" />
                       <span className="text-muted-foreground">Remember me</span>
                     </label>
-                    <button type="button" className="text-primary hover:text-primary/80 transition-colors">
+                    <Link to="/forgot-password" className="text-primary hover:text-primary/80 transition-colors">
                       Forgot password?
-                    </button>
+                    </Link>
                   </div>
 
                   <Button type="submit" className="w-full" disabled={isLoading}>

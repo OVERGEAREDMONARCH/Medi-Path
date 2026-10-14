@@ -2,38 +2,21 @@ import { Button } from "@/components/ui/button";
 import { Heart, User, Calendar, MessageSquare, Phone, Menu } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Auto-hide mobile menu on scroll or after 5 seconds
-  useEffect(() => {
-    if (!isMenuOpen) return;
-
-    // Timer to auto-hide after 5 seconds
-    const timer = setTimeout(() => {
-      setIsMenuOpen(false);
-    }, 5000);
-
-    // Hide on scroll
-    const handleScroll = () => {
-      setIsMenuOpen(false);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [isMenuOpen]);
   return (
     <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-md border-b border-border z-50 shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
         <div className="flex items-center justify-between gap-4 sm:gap-6 lg:gap-8">
           {/* Logo */}
-          <div className="flex items-center space-x-3 min-w-0 flex-shrink-0">
+          <Link
+            to="/"
+            className="flex items-center space-x-3 min-w-0 flex-shrink-0"
+            aria-label="Medi-Path home"
+          >
             <div className="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-xl flex items-center justify-center">
               <Heart className="w-6 h-6 text-white" />
             </div>
@@ -41,22 +24,25 @@ const Navigation = () => {
               <h1 className="text-xl font-bold text-foreground">Medi-Path</h1>
               <p className="text-xs text-muted-foreground hidden sm:block">Healthcare Platform</p>
             </div>
-          </div>
+          </Link>
 
           {/* Navigation Links - Desktop */}
           <div className="hidden md:flex items-center space-x-6 lg:space-x-8 flex-1 justify-center max-w-md mx-8">
-            <a href="#home" className="text-foreground hover:text-primary transition-colors font-medium">
+            <Link to="/" className="text-foreground hover:text-primary transition-colors font-medium">
               Home
-            </a>
-            <a href="#features" className="text-foreground hover:text-primary transition-colors font-medium">
+            </Link>
+            <Link to="/features" className="text-foreground hover:text-primary transition-colors font-medium">
               Features
-            </a>
-            <a href="#about" className="text-foreground hover:text-primary transition-colors font-medium">
+            </Link>
+            <Link to="/about" className="text-foreground hover:text-primary transition-colors font-medium">
               About
-            </a>
-            <a href="#contact" className="text-foreground hover:text-primary transition-colors font-medium">
+            </Link>
+            <Link to="/contact" className="text-foreground hover:text-primary transition-colors font-medium">
               Contact
-            </a>
+            </Link>
+            <Link to="/medassist" className="text-foreground hover:text-primary transition-colors font-medium">
+              MedAssist
+            </Link>
           </div>
 
           {/* Action Buttons */}
@@ -104,34 +90,41 @@ const Navigation = () => {
         {isMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-border rounded-b-lg">
             <div className="flex flex-col space-y-2 pt-4">
-              <a 
-                href="#home" 
+              <Link 
+                to="/" 
                 className="text-foreground hover:text-primary transition-colors font-medium py-3 px-2 rounded-lg hover:bg-muted/50"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
-              </a>
-              <a 
-                href="#features" 
+              </Link>
+              <Link 
+                to="/features" 
                 className="text-foreground hover:text-primary transition-colors font-medium py-3 px-2 rounded-lg hover:bg-muted/50"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Features
-              </a>
-              <a 
-                href="#about" 
+              </Link>
+              <Link 
+                to="/about" 
                 className="text-foreground hover:text-primary transition-colors font-medium py-3 px-2 rounded-lg hover:bg-muted/50"
                 onClick={() => setIsMenuOpen(false)}
               >
                 About
-              </a>
-              <a 
-                href="#contact" 
+              </Link>
+              <Link 
+                to="/contact" 
                 className="text-foreground hover:text-primary transition-colors font-medium py-3 px-2 rounded-lg hover:bg-muted/50"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contact
-              </a>
+              </Link>
+              <Link
+                to="/medassist"
+                className="text-foreground hover:text-primary transition-colors font-medium py-3 px-2 rounded-lg hover:bg-muted/50"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                MedAssist
+              </Link>
               <Link to="/login" className="md:hidden pt-2 border-t border-border/20">
                 <Button variant="ghost" className="justify-start w-full mt-2">
                   <User className="w-4 h-4 mr-2" />

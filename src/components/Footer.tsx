@@ -1,5 +1,6 @@
 import { Heart, Mail, Phone, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
+import { siteContact } from "@/data/mock";
 
 const Footer = () => {
   return (
@@ -27,10 +28,12 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#home" className="text-muted-foreground hover:text-foreground transition-colors">Home</a></li>
-              <li><a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Features</a></li>
-              <li><a href="#about" className="text-muted-foreground hover:text-foreground transition-colors">About Us</a></li>
-              <li><a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors">Contact</a></li>
+              <li><Link to="/" className="text-muted-foreground hover:text-foreground transition-colors">Home</Link></li>
+              <li><Link to="/features" className="text-muted-foreground hover:text-foreground transition-colors">Features</Link></li>
+              <li><Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">About Us</Link></li>
+              <li><Link to="/how-it-works" className="text-muted-foreground hover:text-foreground transition-colors">How it works</Link></li>
+              <li><Link to="/emergency" className="text-destructive hover:underline transition-colors">Emergency help</Link></li>
+              <li><Link to="/contact" className="text-muted-foreground hover:text-foreground transition-colors">Contact</Link></li>
             </ul>
           </div>
 
@@ -38,10 +41,11 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">Services</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Appointment Booking</a></li>
-              <li><a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Telemedicine</a></li>
-              <li><a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Medication Tracking</a></li>
-              <li><a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Secure Messaging</a></li>
+              <li><Link to="/features#scheduling" className="text-muted-foreground hover:text-foreground transition-colors">Appointment Booking</Link></li>
+              <li><Link to="/features#telemedicine" className="text-muted-foreground hover:text-foreground transition-colors">Telemedicine</Link></li>
+              <li><Link to="/features#medications" className="text-muted-foreground hover:text-foreground transition-colors">Medication Tracking</Link></li>
+              <li><Link to="/features#messaging" className="text-muted-foreground hover:text-foreground transition-colors">Secure Messaging</Link></li>
+              <li><Link to="/features#medassist" className="text-muted-foreground hover:text-foreground transition-colors">MedAssist</Link></li>
             </ul>
           </div>
 
@@ -51,15 +55,15 @@ const Footer = () => {
             <ul className="space-y-3 text-sm">
               <li className="flex items-center space-x-2">
                 <Mail className="w-4 h-4 text-primary" />
-                <span className="text-muted-foreground">support@medipath.com</span>
+                <a href={`mailto:${siteContact.email}`} className="text-muted-foreground hover:text-foreground">{siteContact.email}</a>
               </li>
               <li className="flex items-center space-x-2">
                 <Phone className="w-4 h-4 text-primary" />
-                <span className="text-muted-foreground">+1 (555) 123-4567</span>
+                <a href={siteContact.phoneHref} className="text-muted-foreground hover:text-foreground">{siteContact.phoneDisplay}</a>
               </li>
               <li className="flex items-center space-x-2">
                 <MapPin className="w-4 h-4 text-primary" />
-                <span className="text-muted-foreground">123 Healthcare Ave, Medical City</span>
+                <span className="text-muted-foreground">{siteContact.address}</span>
               </li>
             </ul>
           </div>
@@ -68,7 +72,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-muted-foreground text-sm">
-            © 2024 Medi-Path. All rights reserved. HIPAA Compliant Healthcare Platform.
+            © {new Date().getFullYear()} Medi-Path. All rights reserved. Not an emergency service — in an emergency call 999.
           </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <Link to="/privacy" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Privacy Policy</Link>

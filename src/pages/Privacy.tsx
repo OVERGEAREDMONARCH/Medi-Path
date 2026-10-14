@@ -100,7 +100,7 @@ const Privacy = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild>
-                  <Link to="/contact">Contact Privacy Team</Link>
+                  <Link to="/contact?topic=privacy">Contact Privacy Team</Link>
                 </Button>
                 <Button variant="outline" asChild>
                   <a href="mailto:privacy@medipath.com">privacy@medipath.com</a>

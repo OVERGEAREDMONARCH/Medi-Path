@@ -146,7 +146,7 @@ const Security = () => {
                       </a>
                     </Button>
                     <Button variant="outline" asChild>
-                      <Link to="/contact">Contact Security Team</Link>
+                      <Link to="/contact?topic=security">Contact Security Team</Link>
                     </Button>
                   </div>
                 </div>
@@ -164,7 +164,7 @@ const Security = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild>
-                  <Link to="/contact">Contact Security Team</Link>
+                  <Link to="/contact?topic=security">Contact Security Team</Link>
                 </Button>
                 <Button variant="outline" asChild>
                   <a href="mailto:security@medipath.com">security@medipath.com</a>

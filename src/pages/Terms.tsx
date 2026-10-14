@@ -118,7 +118,7 @@ const Terms = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild>
-                  <Link to="/contact">Contact Legal Team</Link>
+                  <Link to="/contact?topic=legal">Contact Legal Team</Link>
                 </Button>
                 <Button variant="outline" asChild>
                   <a href="mailto:legal@medipath.com">legal@medipath.com</a>

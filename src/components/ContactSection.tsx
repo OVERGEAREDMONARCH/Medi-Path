@@ -1,13 +1,15 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Phone, Mail, MapPin, Clock, MessageSquare, HeartHandshake, AlertTriangle } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, MessageSquare, HeartHandshake, AlertTriangle, Shield } from "lucide-react";
+import { siteContact } from "@/data/mock";
 import { useToast } from "@/hooks/use-toast";
 
-const ContactSection = () => {
+const ContactSection = ({ description }: { description?: string }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -32,7 +34,7 @@ const ContactSection = () => {
       if (data.firstName && data.lastName && data.email && data.subject && data.message) {
         toast({
           title: "Message sent successfully!",
-          description: "We'll get back to you within 4 hours.",
+          description: "We aim to reply within 2 working days.",
         });
         
         // Reset form
@@ -46,52 +48,56 @@ const ContactSection = () => {
       }
     }, 1500);
   };
-  const contactMethods = [
-    {
-      icon: <Phone className="w-6 h-6" />,
-      title: "Phone Support",
-      description: "24/7 emergency line",
-      contact: "+1 (555) 123-4567",
-      availability: "Available 24/7"
-    },
+    const contactMethods = [
     {
       icon: <Mail className="w-6 h-6" />,
-      title: "Email Support", 
-      description: "General inquiries",
-      contact: "hello@medipath.com",
-      availability: "Response within 4 hours"
+      title: "Email",
+      description: "Best for most questions",
+      contact: siteContact.email,
+      href: `mailto:${siteContact.email}`,
+      availability: "We aim to reply within 2 working days"
     },
     {
       icon: <MessageSquare className="w-6 h-6" />,
       title: "Live Chat",
-      description: "Instant messaging",
-      contact: "Available in app",
-      availability: "Mon-Fri 9AM-6PM"
+      description: "With your doctor or care team",
+      contact: "Sign in to chat",
+      href: "/login?type=patient&redirect=/patient-dashboard/messages",
+      availability: "Coming soon · for signed-in patients"
+    },
+    {
+      icon: <Phone className="w-6 h-6" />,
+      title: "Phone",
+      description: "Not for medical emergencies",
+      contact: siteContact.phoneDisplay,
+      href: siteContact.phoneHref,
+      availability: "Mon–Fri, 9am–5pm"
     },
     {
       icon: <MapPin className="w-6 h-6" />,
-      title: "Visit Us",
-      description: "Main office",
-      contact: "123 Health Street, Medical District",
-      availability: "By appointment only"
+      title: "Postal address",
+      description: "Post only, no walk-in appointments",
+      contact: siteContact.address,
+      href: undefined,
+      availability: "Letters answered within 10 working days"
     }
   ];
 
-  const supportTypes = [
+    const supportTypes = [
     {
       icon: <HeartHandshake className="w-8 h-8" />,
       title: "Patient Support",
-      description: "Get help with appointments, billing, or technical issues"
+      description: "Help with your account, appointments or using the app"
     },
     {
-      icon: <Phone className="w-8 h-8" />,
-      title: "Emergency Line", 
-      description: "24/7 immediate medical assistance and urgent consultations"
+      icon: <Shield className="w-8 h-8" />,
+      title: "Privacy & Your Data",
+      description: "Ask what we hold about you, or request a copy or deletion (UK GDPR)"
     },
     {
       icon: <MessageSquare className="w-8 h-8" />,
-      title: "General Inquiries",
-      description: "Questions about our services, partnerships, or feedback"
+      title: "General Enquiries",
+      description: "Questions about Medi-Path, feedback or ideas"
     }
   ];
 
@@ -105,8 +111,8 @@ const ContactSection = () => {
             We're Here to Help
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Have questions about our services? Need technical support? Our dedicated team is ready to assist you 
-            with any inquiries you may have.
+            {description ??
+              "Questions, feedback or support? We'd love to hear from you. Get in touch about your account, the app, or your data and we'll help however we can."}
           </p>
         </div>
 
@@ -208,7 +214,17 @@ const ContactSection = () => {
                       <div className="flex-1">
                         <h4 className="font-semibold text-lg mb-1">{method.title}</h4>
                         <p className="text-muted-foreground text-sm mb-2">{method.description}</p>
-                        <p className="font-medium text-foreground mb-1">{method.contact}</p>
+                        {method.href?.startsWith("/") ? (
+                          <Link to={method.href} className="font-medium text-primary mb-1 block hover:underline">
+                            {method.contact}
+                          </Link>
+                        ) : method.href ? (
+                          <a href={method.href} className="font-medium text-foreground mb-1 block hover:text-primary">
+                            {method.contact}
+                          </a>
+                        ) : (
+                          <p className="font-medium text-foreground mb-1">{method.contact}</p>
+                        )}
                         <div className="flex items-center text-sm text-muted-foreground">
                           <Clock className="w-4 h-4 mr-1" />
                           {method.availability}

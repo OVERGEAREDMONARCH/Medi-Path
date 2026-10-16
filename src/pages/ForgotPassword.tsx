@@ -25,8 +25,8 @@ const ForgotPassword = () => {
   };
 
   return (
-    <PageShell title="Reset your password" intro="Enter the email address on your account.">
-      <Card className="max-w-md">
+    <PageShell title="Reset your password" intro="Enter the email address on your account." centered>
+      <Card className="max-w-md mx-auto">
         <CardContent className="p-6">
           {sent ? (
             <div className="space-y-4 text-center">

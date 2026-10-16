@@ -4,8 +4,8 @@ import { siteContact } from "@/data/mock";
 
 const Footer = () => {
   return (
-    <footer className="bg-card border-t py-16">
-      <div className="container mx-auto px-6">
+    <footer className="bg-card border-t py-10">
+      <div className="container mx-auto px-4 sm:px-6">
         <div className="grid md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="space-y-4">
@@ -70,11 +70,11 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <div className="border-t mt-8 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-muted-foreground text-sm">
             © {new Date().getFullYear()} Medi-Path. All rights reserved. Not an emergency service — in an emergency call 999.
           </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
+            <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
               <Link to="/privacy" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Privacy Policy</Link>
               <Link to="/terms" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Terms of Service</Link>
               <Link to="/security" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Security</Link>

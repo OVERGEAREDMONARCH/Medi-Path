@@ -121,7 +121,7 @@ export async function mockChatResponse(question: string): Promise<{
   const med = lookupMedication(question);
   if (med) {
     return {
-      reply: `${med.ai}\n\nI've added structured details to the Medication Insights panel. This is general information and not a substitute for professional medical advice.`,
+      reply: `${med.ai}\n\nHere are the details.. This is general information and not a substitute for professional medical advice.`,
       medication: med,
     };
   }

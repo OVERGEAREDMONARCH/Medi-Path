@@ -1,183 +1,85 @@
-import { ArrowLeft, Shield, Lock, Key, Eye, FileCheck, Server, AlertCircle } from "lucide-react";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CheckCircle2, Clock } from "lucide-react";
+import LegalDoc, { type LegalSection } from "@/components/LegalDoc";
 import { Badge } from "@/components/ui/badge";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
+import { siteContact } from "@/data/mock";
 
-const Security = () => {
-  const securityFeatures = [
-    {
-      icon: <Lock className="w-6 h-6" />,
-      title: "End-to-End Encryption",
-      description: "All data is encrypted using AES-256 encryption both in transit and at rest.",
-      status: "Active"
-    },
-    {
-      icon: <Key className="w-6 h-6" />,
-      title: "Multi-Factor Authentication", 
-      description: "Two-factor authentication required for all user accounts and admin access.",
-      status: "Required"
-    },
-    {
-      icon: <Server className="w-6 h-6" />,
-      title: "SOC 2 Type II Compliance",
-      description: "Annual third-party security audits ensure compliance with industry standards.",
-      status: "Certified"
-    },
-    {
-      icon: <Eye className="w-6 h-6" />,
-      title: "Access Controls",
-      description: "Role-based permissions and audit logs track all data access and changes.",
-      status: "Monitored"
-    },
-    {
-      icon: <FileCheck className="w-6 h-6" />,
-      title: "HIPAA Compliance",
-      description: "Full compliance with healthcare privacy regulations and Business Associate Agreements.",
-      status: "Compliant"
-    },
-    {
-      icon: <Shield className="w-6 h-6" />,
-      title: "Continuous Monitoring",
-      description: "24/7 security monitoring with automated threat detection and response systems.",
-      status: "24/7 Active"
-    }
-  ];
+type Status = "In place" | "In progress";
 
-  const certifications = [
-    { name: "SOC 2 Type II", status: "Current", year: "2024" },
-    { name: "HIPAA BAA", status: "Compliant", year: "2024" },
-    { name: "ISO 27001", status: "In Progress", year: "2024" },
-    { name: "HITECH Act", status: "Compliant", year: "2024" }
-  ];
+// Update each status to "In place" as it is completed during the backend build.
+const protections: { title: string; text: string; status: Status }[] = [
+  { title: "Encrypted connections", text: "Everything sent between your device and Medi-Path travels over HTTPS, so it can't be read by anyone in between.", status: "In progress" },
+  { title: "Protected passwords", text: "Passwords are stored as one-way hashes, never as readable text. Repeated failed sign-ins are slowed down to stop guessing.", status: "In progress" },
+  { title: "Care-team-only access", text: "Clinicians can only open the records of patients whose care team they belong to.", status: "In progress" },
+  { title: "Access log", text: "Every time a record or conversation is opened, we record who opened it and when.", status: "In progress" },
+  { title: "UK hosting", text: "Medi-Path runs on our own server in the United Kingdom. Your data, including backups, stays in the UK.", status: "In progress" },
+  { title: "Regular backups", text: "Data is backed up regularly to a separate disk, so it can be restored if something goes wrong.", status: "In progress" },
+  { title: "Hardened server", text: "Firewall, automatic security updates and key-only remote access on the server that runs Medi-Path.", status: "In progress" },
+  { title: "Only what we need", text: "We collect only the information needed to run the service, and never use tracking or advertising tools.", status: "In place" },
+];
 
-  return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      
-      <main className="pt-24 pb-16">
-        <div className="container mx-auto px-4 sm:px-6">
-          {/* Header */}
-          <div className="mb-12">
-            <Link 
-              to="/" 
-              className="inline-flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors group mb-8"
-            >
-              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              <span>Back to home</span>
-            </Link>
-            
-            <div className="text-center">
-              <Badge variant="secondary" className="mb-4 text-lg px-6 py-2">Security</Badge>
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">
-                Enterprise-Grade Security
-              </h1>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                Your health data deserves the highest level of protection. We implement industry-leading security 
-                measures and maintain strict compliance with healthcare regulations.
-              </p>
+const sections: LegalSection[] = [
+  {
+    heading: "How we approach security",
+    body: [
+      "Medi-Path handles health information, so security is built into how it works rather than added later. This page explains, honestly, what protects your information and what is still being finished during the beta.",
+      "Protections marked \"In progress\" are being built and will be in place before the beta opens to testers. We'll update this page as each one is completed.",
+    ],
+  },
+  {
+    heading: "Keeping your account safe",
+    body: [
+      "Most security problems start with a stolen or guessed password. You can help by:",
+      [
+        "Using a strong password that you don't use for any other website.",
+        "Never sharing your password with anyone, including family members.",
+        "Signing out when you use a shared or public computer, and not ticking \"Remember me\" on it.",
+        "Keeping your phone and computer up to date and locked with a PIN or password.",
+      ],
+      "We will never ask for your password by email, text or phone. If you get a message like that claiming to be from Medi-Path, don't reply, and let us know.",
+    ],
+  },
+  {
+    heading: "Reporting a security problem",
+    body: [
+      `If you think you've found a security weakness in Medi-Path, or that your account has been accessed by someone else, please contact us straight away at ${siteContact.email} or through the Contact page (choose "Security").`,
+      "Please give us a chance to fix a weakness before telling anyone else about it. We'll acknowledge your report within 5 working days and keep you updated on what we're doing about it.",
+    ],
+  },
+  {
+    heading: "If something goes wrong",
+    body: [
+      "If a security incident affects your personal information, we'll tell you without undue delay, explain what happened and what we're doing about it, and report it to the Information Commissioner's Office where the law requires us to.",
+    ],
+  },
+];
+
+const Security = () => (
+  <LegalDoc
+    title="Security"
+    intro="How we protect your information, and how you can help keep your account safe."
+    updated="October 2026"
+    sections={sections}
+    contactTopic="security"
+    contactHeading="Questions about security?"
+  >
+    <section className="space-y-4">
+      <h2 className="text-xl sm:text-2xl font-bold">Our protections at a glance</h2>
+      <div className="grid sm:grid-cols-2 gap-4">
+        {protections.map((p) => (
+          <div key={p.title} className="rounded-xl border border-border p-4 space-y-2">
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="font-semibold">{p.title}</h3>
+              <Badge variant={p.status === "In place" ? "default" : "secondary"} className="shrink-0 gap-1">
+                {p.status === "In place" ? <CheckCircle2 className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
+                {p.status}
+              </Badge>
             </div>
+            <p className="text-sm text-muted-foreground">{p.text}</p>
           </div>
-
-          {/* Security Features */}
-          <div className="mb-16">
-            <h2 className="text-3xl font-bold text-center mb-12">Security Features</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {securityFeatures.map((feature, index) => (
-                <Card key={index} className="border-border/50 hover:border-primary/50 transition-colors">
-                  <CardHeader>
-                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-4">
-                      {feature.icon}
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-lg">{feature.title}</CardTitle>
-                      <Badge variant="secondary" className="text-xs">{feature.status}</Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {feature.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          {/* Certifications */}
-          <div className="mb-16">
-            <h2 className="text-3xl font-bold text-center mb-12">Certifications & Compliance</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {certifications.map((cert, index) => (
-                <Card key={index} className="border-border/50 text-center">
-                  <CardContent className="p-6">
-                    <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <FileCheck className="w-8 h-8 text-accent-foreground" />
-                    </div>
-                    <h3 className="font-semibold text-lg mb-2">{cert.name}</h3>
-                    <p className="text-sm text-muted-foreground mb-2">{cert.status}</p>
-                    <p className="text-xs text-muted-foreground">{cert.year}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          {/* Security Incident Reporting */}
-          <Card className="border-destructive/20 bg-destructive/5 mb-12">
-            <CardContent className="p-8">
-              <div className="flex items-start space-x-4">
-                <div className="w-12 h-12 bg-destructive/10 rounded-lg flex items-center justify-center text-destructive flex-shrink-0">
-                  <AlertCircle className="w-6 h-6" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-2xl font-bold mb-4 text-destructive">Security Incident Reporting</h3>
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
-                    If you discover a security vulnerability or suspect unauthorized access to your account, 
-                    please report it immediately to our security team. We take all security reports seriously 
-                    and investigate promptly.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <Button variant="destructive" asChild>
-                      <a href="mailto:security@medipath.com?subject=Security Incident Report">
-                        Report Security Issue
-                      </a>
-                    </Button>
-                    <Button variant="outline" asChild>
-                      <Link to="/contact?topic=security">Contact Security Team</Link>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Additional Information */}
-          <Card className="border-border/50 bg-accent/5">
-            <CardContent className="p-8 text-center">
-              <h3 className="text-2xl font-bold mb-4">Questions About Our Security?</h3>
-              <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                Our security team is available to answer questions about our security practices, 
-                compliance certifications, or to discuss enterprise security requirements.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button asChild>
-                  <Link to="/contact?topic=security">Contact Security Team</Link>
-                </Button>
-                <Button variant="outline" asChild>
-                  <a href="mailto:security@medipath.com">security@medipath.com</a>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </main>
-
-      <Footer />
-    </div>
-  );
-};
+        ))}
+      </div>
+    </section>
+  </LegalDoc>
+);
 
 export default Security;

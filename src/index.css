@@ -128,6 +128,18 @@
     @apply border-border;
   }
 
+  /* Base size: everything (text, spacing, cards) scales from this.
+     14px on phones, tablets and laptops; 16px on large desktop monitors. */
+  html {
+    font-size: 14px;
+  }
+
+  @media (min-width: 1536px) {
+    html {
+      font-size: 16px;
+    }
+  }
+
   body {
     @apply bg-background text-foreground font-sans;
   }

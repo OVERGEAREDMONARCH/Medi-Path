@@ -1,119 +1,130 @@
-import { ArrowLeft, Shield, Lock, Eye, FileText, Users, Database } from "lucide-react";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
+import LegalDoc, { type LegalSection } from "@/components/LegalDoc";
+import { siteContact } from "@/data/mock";
 
-const Privacy = () => {
-  const sections = [
-    {
-      icon: <Database className="w-6 h-6" />,
-      title: "Information We Collect",
-      content: "We collect personal health information, contact details, appointment data, and usage analytics to provide our healthcare services effectively and securely."
-    },
-    {
-      icon: <Shield className="w-6 h-6" />,
-      title: "How We Use Your Information", 
-      content: "Your data is used to facilitate healthcare services, schedule appointments, communicate with providers, process payments, and improve our platform's functionality."
-    },
-    {
-      icon: <Lock className="w-6 h-6" />,
-      title: "Data Protection & Security",
-      content: "We employ enterprise-grade encryption, secure servers, regular security audits, and strict access controls to protect your sensitive health information."
-    },
-    {
-      icon: <Users className="w-6 h-6" />,
-      title: "Information Sharing",
-      content: "We only share information with your healthcare providers, insurance companies (with consent), and necessary service providers under strict confidentiality agreements."
-    },
-    {
-      icon: <Eye className="w-6 h-6" />,
-      title: "Your Rights & Choices",
-      content: "You have the right to access, update, delete, or port your data. You can also control marketing communications and data sharing preferences."
-    },
-    {
-      icon: <FileText className="w-6 h-6" />,
-      title: "HIPAA Compliance",
-      content: "As a healthcare platform, we strictly adhere to HIPAA regulations and maintain Business Associate Agreements with all third-party services."
-    }
-  ];
+const sections: LegalSection[] = [
+  {
+    heading: "Who we are",
+    body: [
+      "Medi-Path is run by [Owner: your full name or business name], an independent developer based in the United Kingdom. For data protection purposes, we are the \"controller\" of your personal information, which means we decide how and why it is used and we are responsible for looking after it.",
+      `You can contact us about anything in this policy at ${siteContact.email} or through our Contact page.`,
+    ],
+  },
+  {
+    heading: "What this policy covers",
+    body: [
+      "This policy explains what information we collect when you use the Medi-Path website and app, why we collect it, who can see it, how long we keep it and the rights you have over it. It applies to patients and to clinicians using Medi-Path.",
+      "Medi-Path is currently in a private beta. We've written this policy to describe how the service works during the beta. If anything important changes, we'll update this page and let you know.",
+    ],
+  },
+  {
+    heading: "The information we collect",
+    body: [
+      "We only collect what we need to run the service:",
+      [
+        "Account details: your name, email address, phone number and the type of account you have (patient or clinician). Your password is never stored as written; it is stored as a one-way scrambled code (a \"hash\") that even we can't read.",
+        "Health information: appointments, medications, records, letters and test results that you add, or that clinicians on your care team add, and the messages you exchange with your care team.",
+        "Files you upload: for example a photo of medicine packaging or a prescription you share with MedAssist.",
+        "Technical information: a sign-in session saved in your browser so you stay logged in, and basic server logs (your IP address, the time and the page requested) that we keep for security and to fix problems.",
+      ],
+      "We don't collect information from social media, we don't buy data about you from anyone, and we don't use tracking or advertising tools.",
+    ],
+  },
+  {
+    heading: "Why we use your information (our lawful basis)",
+    body: [
+      "UK data protection law says we must have a valid reason, called a \"lawful basis\", for each way we use your information:",
+      [
+        "To provide the service you signed up for, such as creating your account, booking appointments and showing your records. Lawful basis: contract.",
+        "To handle your health information. Health data is \"special category data\" and has extra protection. During the beta we only process it with your explicit consent, which we ask for when you create your account. You can withdraw your consent at any time; we'll then stop processing your health information and close your account.",
+        "To keep Medi-Path secure, for example spotting suspicious sign-ins or preventing misuse. Lawful basis: legitimate interests.",
+        "To meet legal obligations, for example if we are required by law to keep or share certain information.",
+      ],
+    ],
+  },
+  {
+    heading: "MedAssist and artificial intelligence",
+    body: [
+      "During the beta, MedAssist runs entirely on our own servers and uses a built-in reference list of medicines. Nothing you type or upload to MedAssist is sent to any outside company.",
+      "We plan to connect MedAssist to external AI services in the future (for example Anthropic's Claude, Perplexity and ElevenLabs) to give better explanations. Before we do, we will update this policy, tell you exactly which provider would receive what information and where they are based, and ask for your consent. If you don't agree, you can keep using the rest of Medi-Path without that feature.",
+      "MedAssist gives general information about medicines. It does not make decisions about your care.",
+    ],
+  },
+  {
+    heading: "Who can see your information",
+    body: [
+      [
+        "You can always see your own information.",
+        "Clinicians on your care team can see your records, appointments and messages. A clinician can only see them after being added to your care team by your doctor or clinic; being a clinician on Medi-Path does not give access on its own.",
+        "We (the people running Medi-Path) only look at your information when we need to, for example to fix a problem you've reported. Every time anyone opens your record, it is logged.",
+      ],
+      "We never sell your information, and we never share it with advertisers. We'll only share it with anyone else if the law requires us to, for example a court order, or if it's needed to protect someone's life in an emergency.",
+    ],
+  },
+  {
+    heading: "Where your information is stored",
+    body: [
+      "Your information is stored on servers we run ourselves in the United Kingdom, including our backups. We do not transfer your information outside the UK.",
+    ],
+  },
+  {
+    heading: "How long we keep your information",
+    body: [
+      "We keep your information for as long as your account is open. If you ask us to delete your account, we'll remove your information from our live systems within 30 days and from our backups within 90 days, unless the law requires us to keep something for longer. If so, we'll tell you what and why.",
+      "Server logs are kept for up to 90 days and then deleted.",
+    ],
+  },
+  {
+    heading: "Your rights",
+    body: [
+      "Under UK GDPR you have the right to:",
+      [
+        "Access: ask for a copy of the information we hold about you.",
+        "Rectification: ask us to correct information that is wrong or incomplete.",
+        "Erasure: ask us to delete your information.",
+        "Restriction: ask us to limit how we use your information while a concern is looked into.",
+        "Portability: receive your information in a common format to take elsewhere.",
+        "Objection: object to us using your information on the basis of legitimate interests.",
+        "Withdraw consent: at any time, for anything we do based on your consent.",
+      ],
+      "To use any of these rights, contact us through the Contact page (choose \"Privacy & Your Data\") or by email. It's free, and we'll reply within one month.",
+    ],
+  },
+  {
+    heading: "Cookies and browser storage",
+    body: [
+      "We don't use advertising or tracking cookies. We only use your browser's storage to keep you signed in. If you tick \"Remember me\", you stay signed in after closing the browser; otherwise you are signed out when you close it.",
+    ],
+  },
+  {
+    heading: "Age",
+    body: [
+      "During the beta, Medi-Path is only for people aged 18 and over.",
+    ],
+  },
+  {
+    heading: "Complaints",
+    body: [
+      "If you're unhappy with how we've handled your information, please contact us first so we can put it right.",
+      "You also have the right to complain to the Information Commissioner's Office (ICO), the UK's data protection regulator, at ico.org.uk or on 0303 123 1113.",
+    ],
+  },
+  {
+    heading: "Changes to this policy",
+    body: [
+      "If we change this policy, we'll update the date at the top of this page. If the change is significant, for example connecting MedAssist to an outside AI service, we'll tell you before it takes effect and, where needed, ask for your consent again.",
+    ],
+  },
+];
 
-  return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      
-      <main className="pt-24 pb-16">
-        <div className="container mx-auto px-4 sm:px-6">
-          {/* Header */}
-          <div className="mb-12">
-            <Link 
-              to="/" 
-              className="inline-flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors group mb-8"
-            >
-              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              <span>Back to home</span>
-            </Link>
-            
-            <div className="text-center">
-              <Badge variant="secondary" className="mb-4 text-lg px-6 py-2">Privacy Policy</Badge>
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">
-                Your Privacy Matters
-              </h1>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                We are committed to protecting your personal and health information. This policy explains how we collect, 
-                use, and safeguard your data in compliance with HIPAA and other privacy regulations.
-              </p>
-              <p className="text-sm text-muted-foreground mt-4">
-                Last updated: January 2024
-              </p>
-            </div>
-          </div>
-
-          {/* Privacy Sections */}
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            {sections.map((section, index) => (
-              <Card key={index} className="border-border/50 hover:border-primary/50 transition-colors">
-                <CardHeader>
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-4">
-                    {section.icon}
-                  </div>
-                  <CardTitle className="text-xl">{section.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {section.content}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Contact Section */}
-          <Card className="border-border/50 bg-accent/5">
-            <CardContent className="p-8 text-center">
-              <h3 className="text-2xl font-bold mb-4">Questions About Your Privacy?</h3>
-              <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                If you have questions about this privacy policy or how we handle your data, 
-                please don't hesitate to contact our privacy team.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button asChild>
-                  <Link to="/contact">Contact Privacy Team</Link>
-                </Button>
-                <Button variant="outline" asChild>
-                  <a href="mailto:privacy@medipath.com">privacy@medipath.com</a>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </main>
-
-      <Footer />
-    </div>
-  );
-};
+const Privacy = () => (
+  <LegalDoc
+    title="Privacy Policy"
+    intro="How Medi-Path collects, uses and protects your personal and health information, in plain English."
+    updated="October 2026"
+    sections={sections}
+    contactTopic="privacy"
+    contactHeading="Questions about your privacy?"
+  />
+);
 
 export default Privacy;

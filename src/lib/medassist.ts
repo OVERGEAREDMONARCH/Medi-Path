@@ -95,15 +95,14 @@ const MEDICATION_DB: Record<string, MedicationInfo> = {
 };
 
 // Mock OCR — pretends to extract text from an uploaded image/PDF.
-export async function mockOCR(file: File): Promise<string> {
+export async function mockOCR(file: File): Promise<string | null> {
   await new Promise((resolve) => setTimeout(resolve, 900));
   const name = file.name.toLowerCase();
   const known = Object.keys(MEDICATION_DB).find((med) => name.includes(med));
   if (known) {
     return `${known.charAt(0).toUpperCase() + known.slice(1)} 500mg tablets`;
   }
-  // Default placeholder extraction result.
-  return "Paracetamol 500mg tablets";
+  return null;
 }
 
 // Mock medication lookup — matches a name against the mock DB.
@@ -122,7 +121,7 @@ export async function mockChatResponse(question: string): Promise<{
   const med = lookupMedication(question);
   if (med) {
     return {
-      reply: `${med.ai}\n\nI've added structured details to the Medication Insights panel. This is general information and not a substitute for professional medical advice.`,
+      reply: `${med.ai}\n\nHere are the details.. This is general information and not a substitute for professional medical advice.`,
       medication: med,
     };
   }

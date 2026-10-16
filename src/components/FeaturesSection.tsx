@@ -10,7 +10,7 @@ const features = [
   {
     icon: MessageSquare,
     title: "Secure Messaging",
-    description: "HIPAA-compliant chat between patients and healthcare providers with file sharing.",
+    description: "Private messaging with your care team, with file sharing.",
     color: "from-secondary to-secondary/80"
   },
   {
@@ -28,7 +28,7 @@ const features = [
   {
     icon: Shield,
     title: "Data Security",
-    description: "Bank-level encryption, HIPAA compliance, and secure data storage for peace of mind.",
+    description: "Encrypted connections, UK-hosted data, and records visible only to your care team.",
     color: "from-secondary to-accent"
   },
   {

@@ -1,21 +1,24 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Phone, Mail, MapPin, Clock, MessageSquare, HeartHandshake } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, MessageSquare, HeartHandshake, AlertTriangle, Shield } from "lucide-react";
+import { siteContact } from "@/data/mock";
 import { useToast } from "@/hooks/use-toast";
 
-const ContactSection = () => {
+const ContactSection = ({ description }: { description?: string }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget; // capture now: React clears currentTarget after this handler returns
     setIsLoading(true);
 
-    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    const formData = new FormData(form);
     const data = {
       firstName: formData.get('firstName') as string,
       lastName: formData.get('lastName') as string,
@@ -31,11 +34,11 @@ const ContactSection = () => {
       if (data.firstName && data.lastName && data.email && data.subject && data.message) {
         toast({
           title: "Message sent successfully!",
-          description: "We'll get back to you within 4 hours.",
+          description: "We aim to reply within 2 working days.",
         });
         
         // Reset form
-        (e.currentTarget as HTMLFormElement).reset();
+        form.reset();
       } else {
         toast({
           title: "Please fill in all fields",
@@ -45,52 +48,56 @@ const ContactSection = () => {
       }
     }, 1500);
   };
-  const contactMethods = [
-    {
-      icon: <Phone className="w-6 h-6" />,
-      title: "Phone Support",
-      description: "24/7 emergency line",
-      contact: "+1 (555) 123-4567",
-      availability: "Available 24/7"
-    },
+    const contactMethods = [
     {
       icon: <Mail className="w-6 h-6" />,
-      title: "Email Support", 
-      description: "General inquiries",
-      contact: "hello@medipath.com",
-      availability: "Response within 4 hours"
+      title: "Email",
+      description: "Best for most questions",
+      contact: siteContact.email,
+      href: `mailto:${siteContact.email}`,
+      availability: "We aim to reply within 2 working days"
     },
     {
       icon: <MessageSquare className="w-6 h-6" />,
       title: "Live Chat",
-      description: "Instant messaging",
-      contact: "Available in app",
-      availability: "Mon-Fri 9AM-6PM"
+      description: "With your doctor or care team",
+      contact: "Sign in to chat",
+      href: "/login?type=patient&redirect=/patient-dashboard/messages",
+      availability: "Coming soon · for signed-in patients"
+    },
+    {
+      icon: <Phone className="w-6 h-6" />,
+      title: "Phone",
+      description: "Not for medical emergencies",
+      contact: siteContact.phoneDisplay,
+      href: siteContact.phoneHref,
+      availability: "Mon–Fri, 9am–5pm"
     },
     {
       icon: <MapPin className="w-6 h-6" />,
-      title: "Visit Us",
-      description: "Main office",
-      contact: "123 Health Street, Medical District",
-      availability: "By appointment only"
+      title: "Postal address",
+      description: "Post only, no walk-in appointments",
+      contact: siteContact.address,
+      href: undefined,
+      availability: "Letters answered within 10 working days"
     }
   ];
 
-  const supportTypes = [
+    const supportTypes = [
     {
       icon: <HeartHandshake className="w-8 h-8" />,
       title: "Patient Support",
-      description: "Get help with appointments, billing, or technical issues"
+      description: "Help with your account, appointments or using the app"
     },
     {
-      icon: <Phone className="w-8 h-8" />,
-      title: "Emergency Line", 
-      description: "24/7 immediate medical assistance and urgent consultations"
+      icon: <Shield className="w-8 h-8" />,
+      title: "Privacy & Your Data",
+      description: "Ask what we hold about you, or request a copy or deletion (UK GDPR)"
     },
     {
       icon: <MessageSquare className="w-8 h-8" />,
-      title: "General Inquiries",
-      description: "Questions about our services, partnerships, or feedback"
+      title: "General Enquiries",
+      description: "Questions about Medi-Path, feedback or ideas"
     }
   ];
 
@@ -104,8 +111,8 @@ const ContactSection = () => {
             We're Here to Help
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Have questions about our services? Need technical support? Our dedicated team is ready to assist you 
-            with any inquiries you may have.
+            {description ??
+              "Questions, feedback or support? We'd love to hear from you. Get in touch about your account, the app, or your data and we'll help however we can."}
           </p>
         </div>
 
@@ -167,6 +174,13 @@ const ContactSection = () => {
                     required
                   />
                 </div>
+
+                <p className="flex items-start gap-2 text-sm text-destructive">
+                  <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                  Don't use this form for urgent medical problems. For chest pain, difficulty
+                  breathing or any emergency, call 999. For urgent advice, call NHS 111.
+                </p>
+
                 <Button 
                   type="submit" 
                   className="w-full text-base py-3 hover:scale-[1.02] transition-all duration-200" 
@@ -184,8 +198,7 @@ const ContactSection = () => {
             <div>
               <h3 className="text-2xl font-bold mb-6">Get in Touch</h3>
               <p className="text-muted-foreground mb-8">
-                Choose the contact method that works best for you. Our team is committed to providing 
-                prompt and helpful responses to all inquiries.
+                Choose whichever way suits you best. We read every message and reply as soon as we can.
               </p>
             </div>
 
@@ -200,7 +213,17 @@ const ContactSection = () => {
                       <div className="flex-1">
                         <h4 className="font-semibold text-lg mb-1">{method.title}</h4>
                         <p className="text-muted-foreground text-sm mb-2">{method.description}</p>
-                        <p className="font-medium text-foreground mb-1">{method.contact}</p>
+                        {method.href?.startsWith("/") ? (
+                          <Link to={method.href} className="font-medium text-primary mb-1 block hover:underline">
+                            {method.contact}
+                          </Link>
+                        ) : method.href ? (
+                          <a href={method.href} className="font-medium text-foreground mb-1 block hover:text-primary">
+                            {method.contact}
+                          </a>
+                        ) : (
+                          <p className="font-medium text-foreground mb-1">{method.contact}</p>
+                        )}
                         <div className="flex items-center text-sm text-muted-foreground">
                           <Clock className="w-4 h-4 mr-1" />
                           {method.availability}
@@ -212,33 +235,36 @@ const ContactSection = () => {
               ))}
             </div>
 
-            {/* Emergency Notice */}
+                        {/* Emergency Notice */}
             <Card className="border-destructive/50 bg-destructive/5">
               <CardContent className="p-6">
                 <div className="flex items-start space-x-4">
                   <div className="w-12 h-12 bg-destructive/10 rounded-lg flex items-center justify-center text-destructive flex-shrink-0">
                     <Phone className="w-6 h-6" />
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-lg mb-2 text-destructive">Medical Emergency?</h4>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      If you're experiencing a medical emergency, please call 911 immediately or visit your nearest emergency room.
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-lg text-destructive">Medical Emergency?</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Medi-Path is not an emergency service.
                     </p>
-                    <Button 
-                      variant="destructive" 
-                      size="sm" 
-                      className="w-full sm:w-auto"
-                      onClick={() => {
-                        // Open emergency resources or dial 911
-                        if (confirm('Do you need immediate emergency assistance? Click OK to call 911 or Cancel to view emergency resources.')) {
-                          window.open('tel:911', '_self');
-                        } else {
-                          window.open('/emergency-resources', '_blank');
-                        }
-                      }}
-                    >
-                      Emergency Resources
-                    </Button>
+                    <p className="text-sm text-foreground">
+                      If someone is seriously ill or injured, or their life is at risk, call{" "}
+                      <a href="tel:999" className="font-bold text-destructive underline">999</a>{" "}
+                      or go to A&amp;E.
+                    </p>
+                    <p className="text-sm text-foreground">
+                      For urgent advice that isn't an emergency, call{" "}
+                      <a href="tel:111" className="font-bold underline">NHS 111</a>{" "}
+                      or visit{" "}
+                      <a
+                        href="https://111.nhs.uk"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-bold underline"
+                      >
+                        111.nhs.uk
+                      </a>.
+                    </p>
                   </div>
                 </div>
               </CardContent>

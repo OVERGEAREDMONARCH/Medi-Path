@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Heart, Users, Shield } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const CTASection = () => {
+  const navigate = useNavigate();
   return (
     <section className="py-20 bg-gradient-to-br from-primary via-primary/90 to-secondary relative overflow-hidden">
       {/* Background Pattern */}
@@ -32,8 +34,7 @@ const CTASection = () => {
           </h2>
           
           <p className="text-xl text-white/90 max-w-3xl mx-auto">
-            Join thousands of patients and healthcare providers who trust Medi-Path 
-            for secure, efficient, and compassionate care.
+            Medi-Path is in beta. Create an account to try the features available today.
           </p>
 
           {/* Action Buttons */}
@@ -42,9 +43,7 @@ const CTASection = () => {
               variant="outline" 
               size="lg" 
               className="bg-white text-primary hover:bg-white/90 hover:scale-105 border-white text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto transition-all duration-200"
-              onClick={() => {
-                window.location.href = '/login?type=patient';
-              }}
+              onClick={() => navigate('/login?type=patient')}
             >
               For Patients
               <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
@@ -53,29 +52,11 @@ const CTASection = () => {
               variant="outline" 
               size="lg" 
               className="bg-transparent text-white border-white hover:bg-white/20 hover:scale-105 text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto transition-all duration-200"
-              onClick={() => {
-                window.location.href = '/login?type=provider';
-              }}
+              onClick={() => navigate('/login?type=provider')}
             >
               For Providers
               <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
             </Button>
-          </div>
-
-          {/* Trust Indicators */}
-          <div className="flex flex-wrap justify-center gap-8 pt-12 text-white/80">
-            <div className="flex items-center space-x-2">
-              <Shield className="w-5 h-5" />
-              <span className="text-sm">HIPAA Compliant</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Heart className="w-5 h-5" />
-              <span className="text-sm">Trusted by 10K+ Patients</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Users className="w-5 h-5" />
-              <span className="text-sm">500+ Healthcare Providers</span>
-            </div>
           </div>
         </div>
       </div>

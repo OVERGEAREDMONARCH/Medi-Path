@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import {
   Bot,
@@ -10,18 +9,11 @@ import {
   ImagePlus,
   FileText,
   Paperclip,
-  Pill,
-  AlertTriangle,
-  Info,
-  Clock,
-  Activity,
   ShieldAlert,
   Loader2,
   Upload,
   X,
   MessageCircle,
-  ChevronDown,
-  ChevronUp,
 } from "lucide-react";
 import {
   mockOCR,
@@ -29,18 +21,19 @@ import {
   lookupMedication,
   type MedicationInfo,
 } from "@/lib/medassist";
+import MedicationCard from "@/components/medassist/MedicationCard";
 
 interface ChatMessage {
   id: string;
   role: "user" | "assistant";
   content: string;
   attachment?: { name: string; type: string };
+  medication?: MedicationInfo;
 }
 
 const MedAssistWidget = () => {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
-  const [showInsights, setShowInsights] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "welcome",
@@ -52,7 +45,6 @@ const MedAssistWidget = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [insights, setInsights] = useState<MedicationInfo | null>(null);
 
   const imageInputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -75,11 +67,7 @@ const MedAssistWidget = () => {
     setIsLoading(true);
 
     const { reply, medication } = await mockChatResponse(question);
-    addMessage({ role: "assistant", content: reply });
-    if (medication) {
-      setInsights(medication);
-      setShowInsights(true);
-    }
+    addMessage({ role: "assistant", content: reply, medication: medication ?? undefined });
     setIsLoading(false);
   };
 
@@ -105,20 +93,29 @@ const MedAssistWidget = () => {
     });
     setIsLoading(true);
 
+    // Mock OCR extraction
     const extracted = await mockOCR(file);
+    if (!extracted) {
+      addMessage({
+        role: "assistant",
+        content:
+          "I couldn't recognise a medication in this file. Please type the medication name exactly as it appears on the packaging, or check with a pharmacist.",
+      });
+      setIsLoading(false);
+      return;
+    }
     const medication = lookupMedication(extracted);
 
     if (medication) {
-      setInsights(medication);
-      setShowInsights(true);
       addMessage({
         role: "assistant",
-        content: `I extracted "${extracted}" from your upload.\n\n${medication.ai}\n\nStructured details are shown in the Medication Insights panel. This is general information, not a diagnosis.`,
+        content: `I found "${extracted}" in your upload.\n\n${medication.ai}\n\nThis is general information, not a diagnosis.`,
+        medication,
       });
     } else {
       addMessage({
         role: "assistant",
-        content: `I extracted "${extracted}" but couldn't match it to my reference list. Please double-check the packaging or consult a pharmacist.`,
+        content: `I found "${extracted}" but couldn't match it to my reference list. Please double-check the packaging or consult a pharmacist.`,
       });
     }
     setIsLoading(false);
@@ -137,7 +134,7 @@ const MedAssistWidget = () => {
         <button
           onClick={() => setOpen(true)}
           aria-label="Open MedAssist chat"
-          className="fixed right-0 bottom-24 z-50 flex items-center gap-2 rounded-l-full bg-primary text-primary-foreground pl-4 pr-5 py-3 shadow-lg hover:pr-6 transition-all"
+          className="fixed right-0 bottom-24 z-50 flex items-center gap-2 rounded-l-full bg-primary text-primary-foreground pl-3 pr-4 py-2 shadow-lg hover:pr-5 transition-all"
         >
           <MessageCircle className="w-5 h-5" />
           <span className="text-sm font-semibold hidden sm:inline">MedAssist</span>
@@ -146,7 +143,7 @@ const MedAssistWidget = () => {
 
       {/* Chat panel anchored to the far-right edge */}
       {open && (
-        <div className="fixed right-0 bottom-0 sm:bottom-4 z-50 w-full sm:w-[400px] h-[100dvh] sm:h-[640px] sm:max-h-[calc(100vh-2rem)] sm:mr-3 flex flex-col overflow-hidden rounded-none sm:rounded-2xl border border-border bg-card shadow-2xl">
+        <div className="fixed right-0 bottom-0 sm:bottom-4 z-50 w-full sm:w-[360px] h-[100dvh] sm:h-[520px] sm:max-h-[calc(100vh-2rem)] sm:mr-3 flex flex-col overflow-hidden rounded-none sm:rounded-2xl border border-border bg-card shadow-2xl">
           {/* Header */}
           <div className="flex items-center justify-between border-b bg-primary text-primary-foreground px-4 py-3">
             <div className="flex items-center gap-2">
@@ -164,80 +161,6 @@ const MedAssistWidget = () => {
               <X className="w-5 h-5" />
             </button>
           </div>
-
-          {/* Insights (collapsible) */}
-          {insights && (
-            <div className="border-b bg-muted/40">
-              <button
-                onClick={() => setShowInsights((s) => !s)}
-                className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-foreground"
-              >
-                <span className="flex items-center gap-2">
-                  <Pill className="w-4 h-4 text-secondary" />
-                  Insights: {insights.medication}
-                </span>
-                {showInsights ? (
-                  <ChevronUp className="w-4 h-4" />
-                ) : (
-                  <ChevronDown className="w-4 h-4" />
-                )}
-              </button>
-              {showInsights && (
-                <div className="px-4 pb-4 max-h-56 overflow-y-auto space-y-4">
-                  <p className="text-sm text-muted-foreground flex items-start gap-2">
-                    <Info className="w-4 h-4 mt-0.5 flex-shrink-0 text-primary" />
-                    {insights.info.what}
-                  </p>
-
-                  <InsightBlock icon={<Activity className="w-4 h-4 text-secondary" />} title="Common Uses">
-                    <div className="flex flex-wrap gap-1.5">
-                      {insights.info.uses.map((u) => (
-                        <Badge key={u} variant="secondary" className="font-normal">
-                          {u}
-                        </Badge>
-                      ))}
-                    </div>
-                  </InsightBlock>
-
-                  <InsightBlock icon={<Pill className="w-4 h-4 text-primary" />} title="General Dosage">
-                    <ul className="space-y-1">
-                      {insights.info.dosage.map((d) => (
-                        <li key={d} className="text-sm text-muted-foreground flex gap-2">
-                          <span className="text-primary">•</span>
-                          {d}
-                        </li>
-                      ))}
-                    </ul>
-                  </InsightBlock>
-
-                  <InsightBlock icon={<AlertTriangle className="w-4 h-4 text-accent" />} title="Warnings">
-                    <ul className="space-y-1">
-                      {insights.info.warnings.map((w) => (
-                        <li key={w} className="text-sm text-muted-foreground flex gap-2">
-                          <span className="text-accent">•</span>
-                          {w}
-                        </li>
-                      ))}
-                    </ul>
-                  </InsightBlock>
-
-                  <InsightBlock icon={<ShieldAlert className="w-4 h-4 text-destructive" />} title="Interactions">
-                    <div className="flex flex-wrap gap-1.5">
-                      {insights.info.interactions.map((i) => (
-                        <Badge key={i} variant="outline" className="font-normal">
-                          {i}
-                        </Badge>
-                      ))}
-                    </div>
-                  </InsightBlock>
-
-                  <InsightBlock icon={<Clock className="w-4 h-4 text-primary" />} title="Storage">
-                    <p className="text-sm text-muted-foreground">{insights.info.storage}</p>
-                  </InsightBlock>
-                </div>
-              )}
-            </div>
-          )}
 
           {/* Messages */}
           <div
@@ -265,7 +188,7 @@ const MedAssistWidget = () => {
                   {msg.role === "user" ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
                 </div>
                 <div
-                  className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm whitespace-pre-line ${
+                  className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm ${
                     msg.role === "user"
                       ? "bg-primary text-primary-foreground rounded-tr-sm"
                       : "bg-muted text-foreground rounded-tl-sm"
@@ -285,7 +208,8 @@ const MedAssistWidget = () => {
                       <span className="text-xs truncate">{msg.attachment.name}</span>
                     </div>
                   )}
-                  {msg.content}
+                  <p className="whitespace-pre-line">{msg.content}</p>
+                  {msg.medication && <MedicationCard info={msg.medication} />}
                 </div>
               </div>
             ))}
@@ -297,7 +221,7 @@ const MedAssistWidget = () => {
                 </div>
                 <div className="bg-muted rounded-2xl rounded-tl-sm px-4 py-3 flex items-center gap-2 text-sm text-muted-foreground">
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  Analyzing...
+                  Analysing...
                 </div>
               </div>
             )}
@@ -332,6 +256,7 @@ const MedAssistWidget = () => {
                 onClick={handleSendText}
                 disabled={!input.trim() || isLoading}
                 size="icon"
+                aria-label="Send message"
                 className="flex-shrink-0 h-11 w-11"
               >
                 <Send className="w-4 h-4" />
@@ -344,14 +269,20 @@ const MedAssistWidget = () => {
                 type="file"
                 accept="image/*"
                 className="hidden"
-                onChange={(e) => handleFiles(e.target.files)}
+                onChange={(e) => {
+                  handleFiles(e.target.files);
+                  e.target.value = "";
+                }}
               />
               <input
                 ref={fileInputRef}
                 type="file"
                 accept="application/pdf,image/*"
                 className="hidden"
-                onChange={(e) => handleFiles(e.target.files)}
+                onChange={(e) => {
+                  handleFiles(e.target.files);
+                  e.target.value = "";
+                }}
               />
               <Button
                 variant="outline"
@@ -385,23 +316,5 @@ const MedAssistWidget = () => {
     </>
   );
 };
-
-const InsightBlock = ({
-  icon,
-  title,
-  children,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  children: React.ReactNode;
-}) => (
-  <div>
-    <div className="flex items-center gap-2 mb-2">
-      {icon}
-      <h4 className="font-semibold text-sm text-foreground">{title}</h4>
-    </div>
-    {children}
-  </div>
-);
 
 export default MedAssistWidget;

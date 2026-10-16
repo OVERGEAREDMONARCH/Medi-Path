@@ -6,9 +6,11 @@ import { PatientOverview } from "@/components/patient/PatientOverview";
 import { PatientAppointments } from "@/components/patient/PatientAppointments";
 import { PatientRecords } from "@/components/patient/PatientRecords";
 import { PatientMedications } from "@/components/patient/PatientMedications";
+import { useAuth } from "@/contexts/AuthContext";
 
 const PatientDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen bg-background">
@@ -18,7 +20,7 @@ const PatientDashboard = () => {
         {/* Welcome Section */}
         <div className="mb-6 md:mb-8">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-            Welcome back, John Doe
+            Welcome back, {user?.firstName} {user?.lastName}
           </h2>
           <p className="text-muted-foreground text-sm md:text-base">
             Here's an overview of your health information and upcoming appointments.

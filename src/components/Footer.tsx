@@ -19,8 +19,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Revolutionizing healthcare through technology, compassion, and innovation. 
-              Connecting patients with providers for better health outcomes.
+              Book, prepare for and follow up on appointments online, and understand your medication. In private beta in the UK.
             </p>
           </div>
 

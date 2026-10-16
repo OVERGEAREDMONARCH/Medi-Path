@@ -198,8 +198,7 @@ const ContactSection = ({ description }: { description?: string }) => {
             <div>
               <h3 className="text-2xl font-bold mb-6">Get in Touch</h3>
               <p className="text-muted-foreground mb-8">
-                Choose the contact method that works best for you. Our team is committed to providing 
-                prompt and helpful responses to all inquiries.
+                Choose whichever way suits you best. We read every message and reply as soon as we can.
               </p>
             </div>
 

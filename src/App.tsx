@@ -23,6 +23,17 @@ import About from "./pages/About";
 import HowItWorks from "./pages/HowItWorks";
 import Emergency from "./pages/Emergency";
 import ForgotPassword from "./pages/ForgotPassword";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
+import NewAppointment from "./pages/patient/NewAppointment";
+import RescheduleAppointment from "./pages/patient/RescheduleAppointment";
+import VideoCall from "./pages/patient/VideoCall";
+import Messages from "./pages/patient/Messages";
+import Records from "./pages/patient/Records";
+import RecordDetail from "./pages/patient/RecordDetail";
+import Notifications from "./pages/patient/Notifications";
+
+const SignedInWidget = () => (useAuth().user ? <MedAssistWidget /> : null);
 
 const queryClient = new QueryClient();
 
@@ -48,14 +59,24 @@ const App = () => {
         <TooltipProvider>
           <Toaster />
           <Sonner />
+          <AuthProvider>
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<Login />} />
               <Route path="/product-info" element={<ProductInfo />} />
-              <Route path="/patient-dashboard" element={<PatientDashboard />} />
+              <Route element={<ProtectedRoute role="patient" />}>
+                <Route path="/patient-dashboard" element={<PatientDashboard />} />
+                <Route path="/patient-dashboard/appointments/new" element={<NewAppointment />} />
+                <Route path="/patient-dashboard/appointments/:id/reschedule" element={<RescheduleAppointment />} />
+                <Route path="/patient-dashboard/appointments/:id/call" element={<VideoCall />} />
+                <Route path="/patient-dashboard/messages" element={<Messages />} />
+                <Route path="/patient-dashboard/records" element={<Records />} />
+                <Route path="/patient-dashboard/records/:id" element={<RecordDetail />} />
+                <Route path="/patient-dashboard/notifications" element={<Notifications />} />
+                <Route path="/medassist" element={<MedAssist />} />
+              </Route>
               <Route path="/provider-dashboard" element={<ProviderDashboard />} />
-              <Route path="/medassist" element={<MedAssist />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/security" element={<Security />} />
@@ -68,8 +89,9 @@ const App = () => {
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
-            <MedAssistWidget />
+            <SignedInWidget />
           </BrowserRouter>
+          </AuthProvider>
         </TooltipProvider>
       </QueryClientProvider>
     </ThemeProvider>

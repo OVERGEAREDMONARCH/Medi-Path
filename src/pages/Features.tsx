@@ -7,9 +7,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { features } from "@/data/mock";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Features = () => {
   const { hash } = useLocation();
+  const { user } = useAuth();
 
   useEffect(() => {
     if (!hash) return;
@@ -43,7 +45,7 @@ const Features = () => {
                     ))}
                   </ul>
                   {f.id === "medassist" && (
-                    <Button asChild size="sm"><Link to="/medassist">Try MedAssist</Link></Button>
+                    <Button asChild size="sm">{user ? <Link to="/medassist">Open MedAssist</Link> : <Link to="/login?type=patient&redirect=/medassist">Sign in to use MedAssist</Link>}</Button>
                   )}
                   {f.id === "medications" && (
                     <Button asChild size="sm" variant="outline"><Link to="/login?type=patient">Sign in to try it</Link></Button>

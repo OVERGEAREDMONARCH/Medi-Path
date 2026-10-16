@@ -45,7 +45,6 @@ const Footer = () => {
               <li><Link to="/features#telemedicine" className="text-muted-foreground hover:text-foreground transition-colors">Telemedicine</Link></li>
               <li><Link to="/features#medications" className="text-muted-foreground hover:text-foreground transition-colors">Medication Tracking</Link></li>
               <li><Link to="/features#messaging" className="text-muted-foreground hover:text-foreground transition-colors">Secure Messaging</Link></li>
-              <li><Link to="/features#medassist" className="text-muted-foreground hover:text-foreground transition-colors">MedAssist</Link></li>
             </ul>
           </div>
 

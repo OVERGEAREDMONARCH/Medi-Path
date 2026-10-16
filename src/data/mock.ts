@@ -130,8 +130,8 @@ export const howItWorksSteps: Step[] = [
     icon: "bot",
     title: "Ask MedAssist",
     description: "Get general information about a medicine in plain English.",
-    linkTo: "/medassist",
-    linkLabel: "Open MedAssist",
+    linkTo: "/login?type=patient&redirect=/medassist",
+    linkLabel: "Sign in to use MedAssist",
   },
 ];
 
@@ -191,3 +191,170 @@ export const demoCredentials = {
   patient: { name: "Demo Patient", email: "patient@medipath.com" },
   provider: { name: "Demo Doctor", email: "provider@medipath.com" },
 };
+
+// ---------------------------------------------------------------------------
+// Patient area mock data (all people are fictional demo accounts)
+// ---------------------------------------------------------------------------
+
+export type Role = "patient" | "provider";
+
+export interface MockUser {
+  id: string;
+  role: Role;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  specialty?: string;
+}
+
+export interface Doctor {
+  id: string;
+  name: string;
+  specialty: string;
+}
+
+export type AppointmentStatus = "Upcoming" | "Scheduled";
+export type AppointmentType = "video" | "in-person";
+
+export interface Appointment {
+  id: string;
+  doctorId: string;
+  date: string; // yyyy-MM-dd
+  time: string; // HH:mm (24h)
+  reason: string;
+  status: AppointmentStatus;
+  type: AppointmentType;
+}
+
+export interface Medication {
+  id: string;
+  name: string;
+  schedule: string;
+  status: "Active";
+}
+
+export interface MedicalRecord {
+  id: string;
+  title: string;
+  category: string;
+  date: string; // yyyy-MM-dd
+  doctorId: string;
+  summary: string;
+}
+
+export interface ChatMessage {
+  id: string;
+  from: "patient" | "doctor";
+  body: string;
+  sentAt: string; // ISO
+}
+
+export interface Conversation {
+  id: string;
+  doctorId: string;
+  messages: ChatMessage[];
+}
+
+export interface AppNotification {
+  id: string;
+  title: string;
+  body: string;
+  createdAt: string; // ISO
+  read: boolean;
+  link?: string;
+}
+
+export type ToneKey = "primary" | "secondary" | "accent";
+
+export interface Activity {
+  title: string;
+  time: string;
+  tone: ToneKey;
+}
+
+export const demoPassword = "MediPath2024!";
+
+export const mockUsers: Record<Role, MockUser> = {
+  patient: {
+    id: "u-patient",
+    role: "patient",
+    firstName: "Demo",
+    lastName: "Patient",
+    email: "patient@medipath.com",
+    phone: "+44 7700 900000",
+  },
+  provider: {
+    id: "u-provider",
+    role: "provider",
+    firstName: "Demo",
+    lastName: "Doctor",
+    email: "provider@medipath.com",
+    phone: "+44 7700 900001",
+    specialty: "general-practice",
+  },
+};
+
+export const specialties = [
+  { value: "general-practice", label: "General Practice" },
+  { value: "cardiology", label: "Cardiology" },
+  { value: "dermatology", label: "Dermatology" },
+  { value: "neurology", label: "Neurology" },
+  { value: "paediatrics", label: "Paediatrics" },
+];
+
+export const doctors: Doctor[] = [
+  { id: "d1", name: "Demo Doctor A", specialty: "General Practice" },
+  { id: "d2", name: "Demo Doctor B", specialty: "Cardiology" },
+  { id: "d3", name: "Demo Doctor C", specialty: "Dermatology" },
+];
+
+export const timeSlots = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "14:00", "14:30", "15:00", "15:30", "16:00"];
+
+export const initialAppointments: Appointment[] = [
+  { id: "a1", doctorId: "d1", date: "2026-11-02", time: "10:30", reason: "Routine check-up", status: "Upcoming", type: "video" },
+  { id: "a2", doctorId: "d2", date: "2026-11-16", time: "14:00", reason: "Blood pressure follow-up", status: "Scheduled", type: "in-person" },
+];
+
+export const medications: Medication[] = [
+  { id: "m1", name: "Lisinopril 10mg", schedule: "Once daily with breakfast", status: "Active" },
+  { id: "m2", name: "Metformin 500mg", schedule: "Twice daily with meals", status: "Active" },
+  { id: "m3", name: "Vitamin D3 1000 IU", schedule: "Once daily", status: "Active" },
+];
+
+export const medicalRecords: MedicalRecord[] = [
+  { id: "r1", title: "Blood Test Results", category: "Lab results", date: "2026-09-10", doctorId: "d1", summary: "Demo summary: full blood count within the expected range. This is example data only." },
+  { id: "r2", title: "Chest X-Ray", category: "Imaging", date: "2026-08-28", doctorId: "d1", summary: "Demo summary: no abnormalities noted. This is example data only." },
+  { id: "r3", title: "ECG Report", category: "Cardiology", date: "2026-07-30", doctorId: "d2", summary: "Demo summary: normal sinus rhythm. This is example data only." },
+  { id: "r4", title: "Skin Check Letter", category: "Letters", date: "2026-06-15", doctorId: "d3", summary: "Demo summary: routine review, no follow-up needed. This is example data only." },
+];
+
+export const initialConversations: Conversation[] = [
+  {
+    id: "c1",
+    doctorId: "d1",
+    messages: [
+      { id: "c1m1", from: "doctor", body: "Hello, your blood test results are now in your records.", sentAt: "2026-09-11T09:15:00Z" },
+      { id: "c1m2", from: "patient", body: "Thank you, I'll take a look.", sentAt: "2026-09-11T10:02:00Z" },
+    ],
+  },
+  {
+    id: "c2",
+    doctorId: "d2",
+    messages: [
+      { id: "c2m1", from: "doctor", body: "Please bring your blood pressure readings to your next appointment.", sentAt: "2026-10-01T14:30:00Z" },
+    ],
+  },
+];
+
+export const initialNotifications: AppNotification[] = [
+  { id: "n1", title: "Appointment reminder", body: "You have an appointment with Demo Doctor A on 2 Nov at 10:30.", createdAt: "2026-10-12T08:00:00Z", read: false, link: "/patient-dashboard" },
+  { id: "n2", title: "New message", body: "Demo Doctor B sent you a message.", createdAt: "2026-10-01T14:30:00Z", read: false, link: "/patient-dashboard/messages" },
+  { id: "n3", title: "New record available", body: "Your blood test results have been added.", createdAt: "2026-09-10T16:00:00Z", read: true, link: "/patient-dashboard/records/r1" },
+];
+
+export const recentActivity: Activity[] = [
+  { title: "Message from Demo Doctor B", time: "1 Oct 2026", tone: "primary" },
+  { title: "Blood test results added", time: "10 Sept 2026", tone: "secondary" },
+  { title: "Chest X-ray added", time: "28 Aug 2026", tone: "accent" },
+];

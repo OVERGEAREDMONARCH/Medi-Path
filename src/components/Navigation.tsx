@@ -3,9 +3,11 @@ import { Heart, User, Calendar, MessageSquare, Phone, Menu } from "lucide-react"
 import { Link } from "react-router-dom";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user } = useAuth();
 
   return (
     <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-md border-b border-border z-50 shadow-sm">
@@ -40,9 +42,11 @@ const Navigation = () => {
             <Link to="/contact" className="text-foreground hover:text-primary transition-colors font-medium">
               Contact
             </Link>
-            <Link to="/medassist" className="text-foreground hover:text-primary transition-colors font-medium">
-              MedAssist
-            </Link>
+            {user && (
+              <Link to="/medassist" className="text-foreground hover:text-primary transition-colors font-medium">
+                MedAssist
+              </Link>
+            )}
           </div>
 
           {/* Action Buttons */}
@@ -118,13 +122,15 @@ const Navigation = () => {
               >
                 Contact
               </Link>
-              <Link
-                to="/medassist"
-                className="text-foreground hover:text-primary transition-colors font-medium py-3 px-2 rounded-lg hover:bg-muted/50"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                MedAssist
-              </Link>
+              {user && (
+                <Link
+                  to="/medassist"
+                  className="text-foreground hover:text-primary transition-colors font-medium py-3 px-2 rounded-lg hover:bg-muted/50"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  MedAssist
+                </Link>
+              )}
               <Link to="/login" className="md:hidden pt-2 border-t border-border/20">
                 <Button variant="ghost" className="justify-start w-full mt-2">
                   <User className="w-4 h-4 mr-2" />

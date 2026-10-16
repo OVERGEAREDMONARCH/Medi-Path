@@ -54,7 +54,7 @@ const App = () => {
   }
 
   return (
-    <ThemeProvider defaultTheme="system" storageKey="medipath-theme">
+    <ThemeProvider>
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <Toaster />

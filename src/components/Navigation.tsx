@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Heart, User, Calendar, MessageSquare, Phone, Menu } from "lucide-react";
 import { Link } from "react-router-dom";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -51,9 +50,6 @@ const Navigation = () => {
 
           {/* Action Buttons */}
           <div className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0">
-            <div className="hidden md:block">
-              <ThemeToggle />
-            </div>
             
             {/* Desktop Sign In - shows on medium screens and up */}
             <Link to="/login" className="hidden md:block">
